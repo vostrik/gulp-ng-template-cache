@@ -1,7 +1,8 @@
 var es = require('event-stream'),
 	gutil = require('gulp-util'),
 	jsesc = require('jsesc'),
-	cheerio = require('cheerio');
+	cheerio = require('cheerio'),
+	concat = require('gulp-concat');
 
 var BUNDLENAME = 'templatecache.js';
 

@@ -22,17 +22,15 @@ module.exports = function(options){
 			newFile.contents = new Buffer('$templateCache.put(\'' + $content[0].attribs.id + '\',\'' + jsesc($("#document script").eq(0).html()) + '\');');
 			callback(null, newFile);
 		} else {
-			this.emit('error', new PluginError('gulp-ng-template-cache', 'The file is not ng-template: ' + file.path));
-			return callback();
+			callback(new PluginError('gulp-ng-template-cache', 'The file is not ng-template: ' + file.path));
 		}
 	}
 
-	function ngTemplateCacheStream(context){
-		context.emit('error', new PluginError('gulp-ng-template-cache', 'The file is not ng-template: '));
+	function ngTemplateCacheStream(){
 		es.map(ngTemplateCacheFile);
 	}
 
 	return es.pipeline(
-		ngTemplateCacheStream(this),
+		ngTemplateCacheStream(),
 		concat(bundlename));
 };

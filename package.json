@@ -24,6 +24,7 @@
   "dependencies": {
     "cheerio": "^0.22.0",
     "event-stream": "^3.3.4",
+    "gulp-concat": "^2.6.1",
     "gulp-util": "^3.0.7",
     "jsesc": "^2.2.0"
   }

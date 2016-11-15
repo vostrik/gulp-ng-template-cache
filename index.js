@@ -3,34 +3,62 @@ var es = require('event-stream'),
 	PluginError = gutil.PluginError,
 	jsesc = require('jsesc'),
 	cheerio = require('cheerio'),
-	concat = require('gulp-concat');
+	concat = require('gulp-concat'),
+	header = require('gulp-header'),
+	footer = require('gulp-footer');
 
-var BUNDLENAME = 'templatecache.js';
+var TEMPLATE_HEADER = 'angular.module(\'<%= module %>\').run([\'$templateCache\', function($templateCache) {';
+var TEMPLATE_BODY = '$templateCache.put(\'<%= url %>\',\'<%= contents %>\');';
+var TEMPLATE_FOOTER = '}]);';
 
-module.exports = function(options){
+var DEFAULT_BUNDLENAME = 'templatecache.js';
+var DEFAULT_MODULE = 'templates';
+
+/**
+ * Add files to templateCache
+ */
+function ngTemplateCacheFile(file, callback){
+	var fileContent = file.contents.toString('utf-8'),
+		$ = cheerio.load('<div id="document">' + fileContent + '</div>'),
+		$content = $("#document").children();
+	if ($content.length == 1 && $content[0].type == "script" && $content[0].attribs.type == "text/ng-template") {
+		var newFile = file.clone();
+		newFile.contents = new Buffer(gutil.template(TEMPLATE_BODY, {
+			templateId: $content[0].attribs.id,
+			content: jsesc($("#document script").eq(0).html())
+		}));
+		callback(null, newFile);
+	} else {
+		callback(new PluginError('gulp-ng-template-cache', 'The file is not ng-template: ' + file.path));
+	}
+}
+
+/**
+ * process stream of files
+ */
+function ngTemplateCacheStream(){
+	return es.map(ngTemplateCacheFile);
+}
+
+/**
+ * Concatenates and register ng-templates from <script type="text/ng-template"> in the $templateCache
+ * @param {object} [options]
+ */
+function ngTemplateCache(options){
 	options = options || {};
 
-	var bundlename = options.filename || BUNDLENAME;
-
-	function ngTemplateCacheFile(file, callback){
-		var fileContent = file.contents.toString('utf-8'),
-			$ = cheerio.load('<div id="document">' + fileContent + '</div>'),
-			$content = $("#document").children();
-		if ($content.length == 1 && $content[0].type == "script" && $content[0].attribs.type == "text/ng-template") {
-			var newFile = file.clone();
-			console.log($content[0].attribs.id);
-			newFile.contents = new Buffer('$templateCache.put(\'' + $content[0].attribs.id + '\',\'' + jsesc($("#document script").eq(0).html()) + '\');');
-			callback(null, newFile);
-		} else {
-			callback(new PluginError('gulp-ng-template-cache', 'The file is not ng-template: ' + file.path));
-		}
-	}
-
-	function ngTemplateCacheStream(){
-		return es.map(ngTemplateCacheFile);
-	}
+	var bundlename = options.bundlename || BUNDLENAME;
 
 	return es.pipeline(
 		ngTemplateCacheStream(),
-		concat(bundlename));
-};
+		concat(bundlename),
+		header(TEMPLATE_HEADER, {
+			module: options.module || DEFAULT_MODULE
+		}),
+		footer(TEMPLATE_FOOTER));
+}
+
+/**
+ * Expose ngTemplateCache
+ */
+module.exports = ngTemplateCache;

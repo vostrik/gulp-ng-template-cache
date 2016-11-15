@@ -25,6 +25,8 @@
     "cheerio": "^0.22.0",
     "event-stream": "^3.3.4",
     "gulp-concat": "^2.6.1",
+    "gulp-footer": "^1.0.5",
+    "gulp-header": "^1.8.8",
     "gulp-util": "^3.0.7",
     "jsesc": "^2.2.0"
   }

@@ -28,7 +28,7 @@ module.exports = function(options){
 	}
 
 	function ngTemplateCacheStream(context){
-		context.emit('error', new PluginError('gulp-ng-template-cache', 'The file is not ng-template: ' + file.path));
+		context.emit('error', new PluginError('gulp-ng-template-cache', 'The file is not ng-template: '));
 		es.map(ngTemplateCacheFile);
 	}
 

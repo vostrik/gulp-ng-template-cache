@@ -1,5 +1,6 @@
 var es = require('event-stream'),
 	gutil = require('gulp-util'),
+	PluginError = gutil.PluginError,
 	jsesc = require('jsesc'),
 	cheerio = require('cheerio'),
 	concat = require('gulp-concat');

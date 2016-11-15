@@ -22,7 +22,7 @@ function ngTemplateCacheFile(file, callback){
 		$content = $("#document").children();
 	if ($content.length == 1 && $content[0].type == "script" && $content[0].attribs.type == "text/ng-template") {
 		var newFile = file.clone();
-		newFile.contents = new Buffer('$templateCache.put(' + $content[0].attribs.id + ',\'' + jsesc($("#document script").eq(0).html()) + '\');');
+		newFile.contents = new Buffer('$templateCache.put(\'' + $content[0].attribs.id + '\',\'' + jsesc($("#document script").eq(0).html()) + '\');');
 		callback(null, newFile);
 	} else {
 		callback(new PluginError('gulp-ng-template-cache', 'The file is not ng-template: ' + file.path));

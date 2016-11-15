@@ -1,6 +1,6 @@
 {
   "name": "gulp-ng-template-cache",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Put ng-templates from script to AngularJS $templateCache",
   "main": "index.js",
   "scripts": {

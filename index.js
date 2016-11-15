@@ -27,7 +27,7 @@ module.exports = function(options){
 	}
 
 	function ngTemplateCacheStream(){
-		es.map(ngTemplateCacheFile);
+		return es.map(ngTemplateCacheFile);
 	}
 
 	return es.pipeline(

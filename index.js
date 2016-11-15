@@ -8,7 +8,6 @@ var es = require('event-stream'),
 	footer = require('gulp-footer');
 
 var TEMPLATE_HEADER = 'angular.module(\'<%= module %>\').run([\'$templateCache\', function($templateCache) {';
-var TEMPLATE_BODY = '$templateCache.put(\'<%= url %>\',\'<%= contents %>\');';
 var TEMPLATE_FOOTER = '}]);';
 
 var DEFAULT_BUNDLENAME = 'templatecache.js';
@@ -23,10 +22,7 @@ function ngTemplateCacheFile(file, callback){
 		$content = $("#document").children();
 	if ($content.length == 1 && $content[0].type == "script" && $content[0].attribs.type == "text/ng-template") {
 		var newFile = file.clone();
-		newFile.contents = new Buffer(gutil.template(TEMPLATE_BODY, {
-			templateId: $content[0].attribs.id,
-			content: jsesc($("#document script").eq(0).html())
-		}));
+		newFile.contents = new Buffer('$templateCache.put(' + $content[0].attribs.id + ',\'' + jsesc($("#document script").eq(0).html()) + '\');');
 		callback(null, newFile);
 	} else {
 		callback(new PluginError('gulp-ng-template-cache', 'The file is not ng-template: ' + file.path));
@@ -47,13 +43,13 @@ function ngTemplateCacheStream(){
 function ngTemplateCache(options){
 	options = options || {};
 
-	var bundlename = options.bundlename || BUNDLENAME;
+	var bundleName = options.bundleName || DEFAULT_BUNDLENAME;
 
 	return es.pipeline(
 		ngTemplateCacheStream(),
-		concat(bundlename),
+		concat(bundleName),
 		header(TEMPLATE_HEADER, {
-			module: options.module || DEFAULT_MODULE
+			module: options.moduleName || DEFAULT_MODULE
 		}),
 		footer(TEMPLATE_FOOTER));
 }

@@ -1,6 +1,6 @@
 {
   "name": "gulp-ng-template-cache",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Put ng-templates from script to AngularJS $templateCache",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,7 @@
     "url": "https://github.com/vostrik/gulp-ng-template-cache/issues"
   },
   "homepage": "https://github.com/vostrik/gulp-ng-template-cache#readme",
+  "readmeFilename": "README.md",
   "dependencies": {
     "cheerio": "^0.22.0",
     "event-stream": "^3.3.4",

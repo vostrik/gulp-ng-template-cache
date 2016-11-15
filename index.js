@@ -7,7 +7,7 @@ var es = require('event-stream'),
 	header = require('gulp-header'),
 	footer = require('gulp-footer');
 
-var TEMPLATE_HEADER = 'angular.module(\'<%= module %>\').run([\'$templateCache\', function($templateCache) {';
+var TEMPLATE_HEADER = 'angular.module(\'<%= module %>\', []).run([\'$templateCache\', function($templateCache) {';
 var TEMPLATE_FOOTER = '}]);';
 
 var DEFAULT_BUNDLENAME = 'templatecache.js';

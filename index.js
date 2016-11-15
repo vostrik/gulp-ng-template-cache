@@ -27,12 +27,12 @@ module.exports = function(options){
 		}
 	}
 
-	function ngTemplateCacheStream(){
-		return 	this.emit('error', new PluginError('gulp-ng-template-cache', 'The file is not ng-template: ' + file.path));
+	function ngTemplateCacheStream(context){
+		context.emit('error', new PluginError('gulp-ng-template-cache', 'The file is not ng-template: ' + file.path));
 		es.map(ngTemplateCacheFile);
 	}
 
 	return es.pipeline(
-		ngTemplateCacheStream(),
+		ngTemplateCacheStream(this),
 		concat(bundlename));
 };

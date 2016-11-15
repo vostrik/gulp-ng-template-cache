@@ -1,0 +1,30 @@
+{
+  "name": "gulp-ng-template-cache",
+  "version": "1.0.0",
+  "description": "Put ng-templates from script to AngularJS $templateCache",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vostrik/gulp-ng-template-cache.git"
+  },
+  "keywords": [
+    "gulp",
+    "templatecache",
+    "angular"
+  ],
+  "author": "vostrik",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vostrik/gulp-ng-template-cache/issues"
+  },
+  "homepage": "https://github.com/vostrik/gulp-ng-template-cache#readme",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "event-stream": "^3.3.4",
+    "gulp-util": "^3.0.7",
+    "jsesc": "^2.2.0"
+  }
+}
